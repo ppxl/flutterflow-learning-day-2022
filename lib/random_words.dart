@@ -16,7 +16,6 @@ class _RandomWordsState extends State<RandomWords> {
 
   @override
   Widget build(BuildContext context) {
-
     return ListView.builder(
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (context, i) {
@@ -26,7 +25,9 @@ class _RandomWordsState extends State<RandomWords> {
         if (index >= _suggestions.length) {
           _suggestions.addAll(generateWordPairs().take(10));
         }
+
         final alreadySaved = _saved.contains(_suggestions[index]);
+
         return ListTile(
           title: Text(
             _suggestions[index].asPascalCase,
@@ -37,6 +38,15 @@ class _RandomWordsState extends State<RandomWords> {
             color: alreadySaved ? Colors.red : null,
             semanticLabel: alreadySaved ? "Remove from saved" : "Save",
           ),
+          onTap: () {
+            setState(() {
+              if (alreadySaved) {
+                _saved.remove((_suggestions[index]));
+              } else {
+                _saved.add(_suggestions[index]);
+              }
+            });
+          },
         );
       },
     );
